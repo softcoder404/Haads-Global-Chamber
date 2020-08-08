@@ -8,6 +8,44 @@ void loop()
 
 }
 
+
+void performMajorTask() {
+  current = millis();
+  if (current - previous >= 2000) {
+    displayTitle = !displayTitle;
+    lcd.clear();
+    previous = current;
+  }
+  
+  long _distance = takeDistance();
+  String firstLine = "HAADS-GLOBAL NIG"
+  String title = "NOVID CONTROLLER";
+  String secondLine = "Pass Count:" + String(passCount);
+  if (displayTitle) {
+    lcd.setCursor(0, 0);
+    lcd.print(title);
+    lcd.setCursor(0, 1);
+    lcd.print(secondLine);
+  } else {
+    lcd.setCursor(0, 0);
+    lcd.print(firstLine);
+    lcd.setCursor(0, 1);
+    lcd.print(secondLine);
+  }
+  monitorMovement(_distance);
+  if (derisPassFlg) {
+    passCount++;
+    digitalWrite(buzzer, HIGH);
+    digitalWrite(pump, HIGH);
+    delay(digitalRead(timer) == LOW ? 3000 : 2000);
+    digitalWrite(pump, LOW );
+    digitalWrite(buzzer,LOW);
+    saveData(passCount);
+    derisPassFlg = false;
+    detectMove = false;  
+  }
+}
+
 long takeDistance() {
   long duration, distance;
   digitalWrite(trigPin, LOW);
