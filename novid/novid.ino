@@ -8,7 +8,14 @@ void loop()
 
 }
 
-
+long getLastCount() {
+  long num = 0;
+  for (int i = 0; i <= 100; i++) {
+    num += EEPROM.read(0x0F + i);
+    delay(50);
+  }
+  return num;
+}
 
 void saveData(long dataVal) {
   if (dataVal <= 255) {
