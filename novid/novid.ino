@@ -8,23 +8,7 @@ void loop()
 
 }
 
-void monitorMovement(long dist) {
-  if (dist + 8 < frameDistance && detectMove == false) {
-    detectMove = true;
-  }
-  if (dist >= frameDistance - 8 && detectMove == true) {
-    derisPassFlg = true;
-  }
-}
 
-long getLastCount() {
-  long num = 0;
-  for (int i = 0; i <= 100; i++) {
-    num += EEPROM.read(0x0F + i);
-    delay(50);
-  }
-  return num;
-}
 
 void saveData(long dataVal) {
   if (dataVal <= 255) {
